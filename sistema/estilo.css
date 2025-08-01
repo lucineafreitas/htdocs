@@ -1,0 +1,45 @@
+.navegacao{
+    /* background-color: red !important; */
+    background: linear-gradient(to right, rgb(68, 90, 197), rgb(108, 181, 236));
+}
+
+.menu{
+    background-color: rgb(230, 124, 35);
+    /*o menu pega toda a altura da tela*/
+    height: 100vh;
+    list-style: none;
+}
+
+.menu-item{
+    color: white;
+    padding: 8px 0px;
+    text-decoration: none;
+    font-size: 22px;
+}
+
+
+.menu-item:hover{
+    color: rgb(34, 89, 207);
+}
+.fundoLogin{
+    background-color: rgba(68, 90, 197);
+}
+
+.painel{
+    background-color: white;
+    width: 350px;
+    height: 350px;
+    margin: auto;
+    margin-top: 100px;
+    border-radius: 20px;
+    padding: 15px;
+}
+.cabecalho{
+    color: rgb(104, 156, 223);
+    text-align: center;
+    font-size: 40px;
+}
+.botao:hover{
+    background-color: orange !important;
+    border: orange;
+}
