@@ -11,6 +11,7 @@
     //mandar para loguin
     header('location:../index.php')
     
+    
 ?>
 
     
