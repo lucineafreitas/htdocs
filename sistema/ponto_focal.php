@@ -1,7 +1,7 @@
 <?php
 include './backend/conexao.php';
 include './backend/validacao.php';
-
+include './recursos/cabecalho.php';
 $destino = "./backend/ponto_focal/inserir.php";
 
 //caso eu esteja alterando algum registro
@@ -11,34 +11,10 @@ if (!empty($_GET['id'])) {
   $sql = "SELECT * FROM ponto_focal WHERE id='$id' ";
   //executa sql
   $dados = mysqli_query($conexao, $sql);
-  $ponto_focals = mysqli_fetch_assoc($dados);
+  $ponto_focal = mysqli_fetch_assoc($dados);
   $destino = "./backend/ponto_focal/alterar.php";
 }
 ?>
-
-<!DOCTYPE html>
-<html lang="pt-br">
-
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Sistema</title>
-
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
-    integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg=="
-    crossorigin="anonymous" referrerpolicy="no-referrer" />
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet"
-    integrity="sha384-LN+7fdVzj6u52u30Kp6M/trliBMCMKTyK833zpbD+pXdCLuTusPj697FH4R/5mcr" crossorigin="anonymous">
-  <link rel="stylesheet" href="https://cdn.datatables.net/2.3.2/css/dataTables.dataTables.css" />
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/notyf/3.10.0/notyf.min.js"
-    integrity="sha512-467grL09I/ffq86LVdwDzi86uaxuAhFZyjC99D6CC1vghMp1YAs+DqCgRvhEtZIKX+o9lR0F2bro6qniyeCMEQ=="
-    crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/notyf/3.10.0/notyf.min.css"
-    integrity="sha512-ZX18S8AwqoIm9QCd1EYun82IryFikdJt7lxj6583zx5Rvr5HoreO9tWY6f2VhSxvK+48vYFSf4zFtX/t2ge62g=="
-    crossorigin="anonymous" referrerpolicy="no-referrer" />
-
-  <link rel="stylesheet" href="estilo.css">
-</head>
 
 <body>
 
@@ -108,18 +84,7 @@ if (!empty($_GET['id'])) {
     <div class="row">
 
       <div class="col-2 menu">
-        <ul class="menu">
-          <p style="color:white" ;>
-            Bem-vindo(a) <?php echo $_SESSION['usuario']; ?>
-          </p>
-          <li> <a href="usuario.php" class="menu-item"> <i class="fa-solid fa-user"></i> Usuário </a> </li>
-          <li> <a href="regiao.php" class="menu-item"> <i class="fa-solid fa-location-dot"></i> Regiões </a> </li>
-          <li> <a href="cidade.php" class="menu-item"> <i class="fa-solid fa-city"></i> Cidades </a> </li>
-          <li> <a href="ponto_focal.php" class="menu-item"> <i class="fa-solid fa-user-secret"></i> Pontos Focais </a> </li>
-          <li> <a href="#" class="menu-item"> <i class="fa-solid fa-map"></i> Áreas </a> </li>
-          <li> <a href="#" class="menu-item"> <i class="fa-solid fa-cart-shopping"></i> Efetuar Venda </a> </li>
-          <li> <a href="#" class="menu-item"> <i class="fa-solid fa-magnifying-glass"></i> Pesquisar Vendas </a> </li>
-        </ul>
+        <?php include './recursos/menulateral.php' ?>
       </div>
 
       <div class="col-2">
@@ -128,48 +93,87 @@ if (!empty($_GET['id'])) {
         <form action="<?= $destino ?>" method="post">
           <div class="mb-3">
             <label class="form-label"> Id </label>
-            <input readonly name="id" type="text" value="<?php echo isset($ponto_focals) ? $ponto_focals['id'] : "" ?>"
+            <input readonly name="id" type="text" value="<?php echo isset($ponto_focal) ? $ponto_focal['id'] : "" ?>"
               class="form-control">
           </div>
 
           <div class="mb-3">
-            <label class="form-label"> nome </label>
-            <input name="nome" type="text" autofocus value="<?php echo isset($ponto_focals) ? $ponto_focals['nome'] : "" ?>"
+            <label class="form-label"> Nome </label>
+            <input name="nome" type="text" autofocus
+              value="<?php echo isset($ponto_focal) ? $ponto_focal['nome'] : "" ?>" class="form-control">
+          </div>
+
+          <div class="mb-3">
+            <label class="form-label"> Razão Social </label>
+            <input name="razao_social" type="text" value="<?php echo isset($ponto_focal) ? $ponto_focal['razao_social'] : "" ?>"
+              class="form-control cep">
+          </div>
+
+          <div class="mb-3">
+            <label class="form-label"> Tipo </label>
+            <input name="tipo" type="text" autofocus
+              value="<?php echo isset($ponto_focal) ? $ponto_focal['tipo'] : "" ?>" class="form-control">
+          </div>
+
+          <div class="mb-3">
+            <label class="form-label"> CNPJ </label>
+            <input readonly name="cnpj_cpf" type="text" value="<?php echo isset($ponto_focal) ? $ponto_focal['cnpj_cpf'] : "" ?>"
               class="form-control">
           </div>
 
           <div class="mb-3">
-            <label class="form-label"> E-mail </label>
-            <input name="email" type="email" value="<?php echo isset($ponto_focals) ? $ponto_focals['email'] : "" ?>"
+            <label class="form-label"> Endereço </label>
+            <input readonly name="endereço" type="text" value="<?php echo isset($ponto_focal) ? $ponto_focal['emdereço'] : "" ?>"
               class="form-control">
           </div>
 
           <div class="mb-3">
-            <label class="form-label"> CPF </label>
-            <input name="cpf" type="text" value="<?php echo isset($ponto_focals) ? $ponto_focals['cpf'] : "" ?>"
-              class="form-control cpf">
+            <label class="form-label"> Telefone </label>
+            <input readonly name="telefone" type="text" value="<?php echo isset($ponto_focal) ? $ponto_focal['telefone'] : "" ?>"
+              class="form-control">
           </div>
 
           <div class="mb-3">
-            <label class="form-label">Senha</label>
-            <div class="input-group">
-              <input name="senha" type="password" value="<?php echo isset($ponto_focals) ? $ponto_focals['senha'] : "" ?>"
-                class="form-control" id="senha" autocomplete="new-password">
-              <span onclick="visualizar()" style="cursor: pointer;" class="input-group-text">
-                <i id="olho" class="fa-solid fa-eye"></i>
-              </span>
-            </div>
+            <label class="form-label"> Celular </label>
+            <input readonly name="celular" type="text" value="<?php echo isset($ponto_focal) ? $ponto_focal['celular'] : "" ?>"
+              class="form-control">
           </div>
 
+          <div class="mb-3">
+            <label class="form-label"> Email </label>
+            <input readonly name="email" type="text" value="<?php echo isset($ponto_focal) ? $ponto_focal['email'] : "" ?>"
+              class="form-control">
+          </div>
 
+          <div class="mb-3">
+            <label class="form-label"> Cidade </label>
+            <input readonly name="cidade" type="text" value="<?php echo isset($ponto_focal) ? $ponto_focal['cidade'] : "" ?>"
+              class="form-control">
+          </div>
 
+          <div class="mb-3">
+            <label> Região </label>
+            <select name="regiao" class="form-select" required>
+              <option> Selecione uma região </option>
+              <?php
+              $sql = "SELECT * FROM regiao ORDER BY nome";
+              $resultado = mysqli_query($conexao, $sql);
+              $regiaoSelecionada = isset($ponto_focal) ? $ponto_focal['id_regiao_fk'] : '';
+
+              while ($reg = mysqli_fetch_assoc($resultado)) {
+                $selecao = ($reg['id'] == $regiaoSelecionada) ? 'Selected' : '';
+                echo "<option value='{$reg['id']}' $selecao> {$reg['nome']} </option>";
+              }
+              ?>
+            </select>
+          </div>
 
           <button type="submit" class="btn btn-primary">Salvar</button>
         </form>
 
       </div>
 
-      <div class="col-7">
+      <div class="col-8">
         <h1> Listagem </h1>
 
         <table id="tabela" class="table table-bordered border-primary">
@@ -177,9 +181,14 @@ if (!empty($_GET['id'])) {
             <tr>
               <th scope="col">Id</th>
               <th scope="col">Nome</th>
-              <th scope="col">E-mail</th>
-              <th scope="col">CPF</th>
-              <th scope="col">Senha</th>
+              <th scope="col">Razão Social</th>
+              <th scope="col">Tipo</th>
+              <th scope="col">CNPJ</th>
+              <th scope="col">Endereço</th>
+              <th scope="col">Telefone</th>
+              <th scope="col">Celular</th>
+              <th scope="col">Email</th>
+              <th scope="col">Cidade</th>
               <th scope="col">Opções</th>
             </tr>
           </thead>
@@ -194,9 +203,15 @@ if (!empty($_GET['id'])) {
               <tr>
                 <th scope="row"> <?php echo $coluna['id'] ?></th>
                 <td> <?php echo $coluna['nome'] ?></td>
+                <td> <?php echo $coluna['razao_social'] ?></td>
+                <td> <?php echo $coluna['tipo'] ?></td>
+                <td> <?php echo $coluna['cnpj_cpf'] ?></td>
+                <td> <?php echo $coluna['endereco'] ?></td>
+                <td> <?php echo $coluna['telefone'] ?></td>
+                <td> <?php echo $coluna['celular'] ?></td>
                 <td> <?php echo $coluna['email'] ?></td>
-                <td> <?php echo $coluna['cpf'] ?></td>
-                <td> <?php echo $coluna['senha'] ?></td>
+                <td> <?php echo $coluna['id_cidade_fk'] ?></td>  
+                
                 <td>
                   <a href="ponto_focal.php?id=<?= $coluna['id'] ?>"> <i class="fa-solid fa-pen-to-square"
                       style="color: blue;"></i></a>
@@ -226,7 +241,10 @@ if (!empty($_GET['id'])) {
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js"
     integrity="sha384-ndDqU0Gzau9qJ1lfW4pNLlhNTkCfHzAVBReH9diLvGRem5+R9g2FzA8ZGN954O5Q"
     crossorigin="anonymous"></script>
-  <script src="script.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.min.js"
+    integrity="sha512-pHVGpX7F/27yZ0ISY+VVjyULApbDlD0/X0rgGbTqCE7WFW5MezNTWG/dnhtbBuICzsd0WQPgpE4REBLv+UqChw=="
+    crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+  <script src="./recursos/script.js"></script>
 
 </body>
 

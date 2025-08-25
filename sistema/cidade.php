@@ -121,7 +121,7 @@ if (!empty($_GET['id'])) {
                 $regiaoSelecionada = isset($cidades) ? $cidades['id_regiao_fk']:'';
 
                 while($reg = mysqli_fetch_assoc($resultado)){
-                $selecao = ($reg['id'] == $regiaoSelecionada) ? 'Selecione' : '';
+                $selecao = ($reg['id'] == $regiaoSelecionada) ? 'Selected' : '';
                 echo "<option value='{$reg['id']}' $selecao> {$reg['nome']} </option>";
                 }
               ?>
@@ -169,7 +169,7 @@ if (!empty($_GET['id'])) {
 
                 <td> <?php echo $regiao['nome'] ?> </td>
                 <td>
-                  <a href="principal.php?id=<?= $coluna['id'] ?>"> <i class="fa-solid fa-pen-to-square"
+                  <a href="cidade.php?id=<?= $coluna['id'] ?>"> <i class="fa-solid fa-pen-to-square"
                       style="color: blue;"></i></a>
                   <a href="<?php echo "./backend/cidade/excluir.php?id=" . $coluna['id'] ?>"
                     onclick="return confirm('Deseja realmente excluir?')">
