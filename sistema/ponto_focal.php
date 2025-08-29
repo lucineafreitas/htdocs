@@ -3,7 +3,6 @@ include './backend/conexao.php';
 include './backend/validacao.php';
 include './recursos/cabecalho.php';
 $destino = "./backend/ponto_focal/inserir.php";
-
 //caso eu esteja alterando algum registro
 //se for dferente de vazio, se tiver id na URL
 if (!empty($_GET['id'])) {
@@ -15,10 +14,8 @@ if (!empty($_GET['id'])) {
   $destino = "./backend/ponto_focal/alterar.php";
 }
 ?>
-
-<body>
-
-  <?php
+  <body>
+    <?php
   //se existir uma requisição get ERR e se ERRo = 1
   if (isset($_SESSION['mensagem'])) {
     echo "<script>
@@ -72,17 +69,11 @@ if (!empty($_GET['id'])) {
           <a href="./backend/sair.php" class="btn btn-outline-light ms-2"> <i
               class="fa-solid fa-right-from-bracket"></i> </a>
         </form>
-
-
       </div>
     </div>
   </nav>
-
-
   <div class="container-fluid">
-
     <div class="row">
-
       <div class="col-2 menu">
         <?php include './recursos/menulateral.php' ?>
       </div>
@@ -99,69 +90,62 @@ if (!empty($_GET['id'])) {
 
           <div class="mb-3">
             <label class="form-label"> Nome </label>
-            <input name="nome" type="text" autofocus
-              value="<?php echo isset($ponto_focal) ? $ponto_focal['nome'] : "" ?>" class="form-control">
+            <input name="nome" type="text" autofocus value="<?php echo isset($ponto_focal) ? $ponto_focal['nome'] : "" ?>" class="form-control">
           </div>
 
           <div class="mb-3">
-            <label class="form-label"> Razão Social </label>
-            <input name="razao_social" type="text" value="<?php echo isset($ponto_focal) ? $ponto_focal['razao_social'] : "" ?>"
-              class="form-control cep">
-          </div>
-
-          <div class="mb-3">
-            <label class="form-label"> Tipo </label>
-            <input name="tipo" type="text" autofocus
-              value="<?php echo isset($ponto_focal) ? $ponto_focal['tipo'] : "" ?>" class="form-control">
-          </div>
-
-          <div class="mb-3">
-            <label class="form-label"> CNPJ </label>
-            <input readonly name="cnpj_cpf" type="text" value="<?php echo isset($ponto_focal) ? $ponto_focal['cnpj_cpf'] : "" ?>"
+            <label class="form-label"> Razão Social </label> <input name="razao_social" type="text" value="<?php echo isset($ponto_focal) ? $ponto_focal['razao_social'] : "" ?>"
               class="form-control">
           </div>
 
           <div class="mb-3">
+            <label class="form-label"> Tipo </label>
+            <select class="form-select" name="tipo">
+              <option value="Privada"> Privada </option>
+              <option value="Publica"> Publica </option>  
+            </select>
+          </div>
+
+          <div class="mb-3">
+            <label class="form-label"> CNPJ </label>
+            <input name="cnpj_cpf" type="text" value="<?php echo isset($ponto_focal) ? $ponto_focal["cnpj_cpf"] : "" ?>" class="form-control cnpj">
+          </div>
+
+          <div class="mb-3">
             <label class="form-label"> Endereço </label>
-            <input readonly name="endereço" type="text" value="<?php echo isset($ponto_focal) ? $ponto_focal['emdereço'] : "" ?>"
+            <input name="endereco" type="text" value="<?php echo isset($ponto_focal) ? $ponto_focal['endereco'] : "" ?>"
               class="form-control">
           </div>
 
           <div class="mb-3">
             <label class="form-label"> Telefone </label>
-            <input readonly name="telefone" type="text" value="<?php echo isset($ponto_focal) ? $ponto_focal['telefone'] : "" ?>"
-              class="form-control">
+            <input name="telefone" type="text" value="<?php echo isset($ponto_focal) ? $ponto_focal['telefone'] : "" ?>"
+              class="form-control celular">
           </div>
 
           <div class="mb-3">
             <label class="form-label"> Celular </label>
-            <input readonly name="celular" type="text" value="<?php echo isset($ponto_focal) ? $ponto_focal['celular'] : "" ?>"
-              class="form-control">
+            <input name="celular" type="text" value="<?php echo isset($ponto_focal) ? $ponto_focal['celular'] : "" ?>"
+              class="form-control celular">
           </div>
 
           <div class="mb-3">
             <label class="form-label"> Email </label>
-            <input readonly name="email" type="text" value="<?php echo isset($ponto_focal) ? $ponto_focal['email'] : "" ?>"
+            <input name="email" type="text" value="<?php echo isset($ponto_focal) ? $ponto_focal['email'] : "" ?>"
               class="form-control">
           </div>
 
           <div class="mb-3">
-            <label class="form-label"> Cidade </label>
-            <input readonly name="cidade" type="text" value="<?php echo isset($ponto_focal) ? $ponto_focal['cidade'] : "" ?>"
-              class="form-control">
-          </div>
-
-          <div class="mb-3">
-            <label> Região </label>
-            <select name="regiao" class="form-select" required>
-              <option> Selecione uma região </option>
+            <label> Cidade </label>
+            <select name="cidade" class="form-select" required>
+              <option> Selecione uma Cidade </option>
               <?php
-              $sql = "SELECT * FROM regiao ORDER BY nome";
+              $sql = "SELECT * FROM cidade ORDER BY nome";
               $resultado = mysqli_query($conexao, $sql);
-              $regiaoSelecionada = isset($ponto_focal) ? $ponto_focal['id_regiao_fk'] : '';
+              $cidadeSelecionada = isset($ponto_focal) ? $ponto_focal['cidade'] : '';
 
               while ($reg = mysqli_fetch_assoc($resultado)) {
-                $selecao = ($reg['id'] == $regiaoSelecionada) ? 'Selected' : '';
+                $selecao = ($reg['id'] == $cidadeSelecionada) ? 'Selected' : '';
                 echo "<option value='{$reg['id']}' $selecao> {$reg['nome']} </option>";
               }
               ?>
@@ -210,8 +194,13 @@ if (!empty($_GET['id'])) {
                 <td> <?php echo $coluna['telefone'] ?></td>
                 <td> <?php echo $coluna['celular'] ?></td>
                 <td> <?php echo $coluna['email'] ?></td>
-                <td> <?php echo $coluna['id_cidade_fk'] ?></td>  
-                
+
+                <?php 
+                $sql = "SELECT * FROM cidade WHERE id=".$coluna['id_cidade_fk'];
+                $resultado = mysqli_query($conexao, $sql);
+                $cidade = mysqli_fetch_assoc($resultado);
+              ?>
+              <td> <?php echo $cidade['nome'] ?> </td>
                 <td>
                   <a href="ponto_focal.php?id=<?= $coluna['id'] ?>"> <i class="fa-solid fa-pen-to-square"
                       style="color: blue;"></i></a>
@@ -223,7 +212,7 @@ if (!empty($_GET['id'])) {
             <?php } ?>
           </tbody>
         </table>
-      </div>
+      </div>0,
 
     </div>
 
