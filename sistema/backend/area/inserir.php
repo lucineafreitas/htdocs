@@ -9,7 +9,7 @@ $sql = "INSERT INTO area(nome, numero) VALUES ('$nome', '$numero')";
 //executa sql
 $resultado = mysqli_query($conexao,$sql);
 //mandar para pagina principal
-header('Location:../../area.php');
+header('location:../../area.php');
 
 session_start();
 $_SESSION["mensagem"] = "$nome Cadastrado com Sucesso!";

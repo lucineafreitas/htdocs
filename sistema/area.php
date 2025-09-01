@@ -7,7 +7,7 @@ $destino = "./backend/area/inserir.php";
 //se for dferente de vazio, se tiver id na URL
 if (!empty($_GET['id'])) {
   $id = $_GET['id'];
-  $sql = "SELECT * FROM area WHERE id='$id' numero='$numero";
+  $sql = "SELECT * FROM area WHERE id='$id' ";
   //executa sql
   $dados = mysqli_query($conexao, $sql);
   $areas = mysqli_fetch_assoc($dados);
@@ -43,7 +43,7 @@ if (!empty($_GET['id'])) {
 
           <div class="mb-3">
             <label class="form-label"> Numero </label>
-            <input name="nome" type="text" autofocus value="<?php echo isset($areas) ? $areas['numero'] : "" ?>"
+            <input name="numero" type="text" autofocus value="<?php echo isset($areas) ? $areas['numero'] : "" ?>"
               class="form-control">
           </div>
 
@@ -60,6 +60,7 @@ if (!empty($_GET['id'])) {
             <tr>
               <th scope="col">Id</th>
               <th scope="col">Nome</th>
+              <th scope="col">Numero</th>
               <th scope="col">Opções</th>
             </tr>
           </thead>
@@ -74,6 +75,7 @@ if (!empty($_GET['id'])) {
               <tr>
                 <th scope="row"> <?php echo $coluna['id'] ?></th>
                 <td> <?php echo $coluna['nome'] ?></td>
+                <td> <?php echo $coluna['numero'] ?></td>
                 <td>
                   <a href="area.php?id=<?= $coluna['id'] ?>"> <i class="fa-solid fa-pen-to-square"
                       style="color: blue;"></i></a>
